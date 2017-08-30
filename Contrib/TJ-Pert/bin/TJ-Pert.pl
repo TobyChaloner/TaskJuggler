@@ -130,7 +130,7 @@ processArgs();
 	$projet = TJPert::postscript::PsProjet->new($projetxml);
     } else
     {
-	$projet = GvProjet->new($projetxml);
+	$projet = TJPert::graphviz::GvProjet->new($projetxml);
 
     }
 

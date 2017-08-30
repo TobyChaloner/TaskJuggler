@@ -63,7 +63,7 @@ my $cell_coef   = 1.3;
 
 sub new {
     my ( $class, $ref ) = @_;
-    my $parent = Task->new($ref);
+    my $parent = TJPert::model::Task->new($ref);
     return bless ($parent);
 }
 

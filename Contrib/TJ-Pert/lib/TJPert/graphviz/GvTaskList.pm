@@ -43,8 +43,8 @@ use vars qw(@ISA);
 
 sub new {
     my ( $class, $ref ) = @_;
-    my $tl = TaskList->new($ref);
-    my $pst = GvTask->new($ref);
+    my $tl =  TJPert::model::TaskList->new($ref);
+    my $pst = TJPert::graphviz::GvTask->new($ref);
     #join the two class hashes into one. Developer: There is a risk that the order is wrong
     my $this = {( %{$tl}, %{$pst} )};
     return bless $this, $class;
@@ -65,7 +65,7 @@ sub createTask
     print "GvTaskList::createTask\n";
     my $self = shift;
     my $task = shift;
-    return GvTask->new($task);
+    return TJPert::graphviz::GvTask->new($task);
 }
 
 
@@ -81,7 +81,7 @@ sub createTaskList
     print "GvTaskList::createTaskList\n";
     my $self = shift;
     my $task = shift;
-    return GvTaskList->new($task);
+    return TJPert::graphviz::GvTaskList->new($task);
 }
 
 

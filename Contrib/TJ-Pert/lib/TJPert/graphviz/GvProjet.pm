@@ -58,8 +58,8 @@ Currently the joining order is not critical.
 
 sub new {
     my ( $class, $ref ) = @_;
-    my $projet = Projet->new($ref);
-    my $psTaskList = GvTaskList->new($ref);
+    my $projet = TJPert::model::Projet->new($ref);
+    my $psTaskList = TJPert::graphviz::GvTaskList->new($ref);
     #join the two class hashes into one. Developer: There is a risk that the order is wrong
     my $this = {( %{$psTaskList}, %{$projet} )};
     return bless $this, $class;
