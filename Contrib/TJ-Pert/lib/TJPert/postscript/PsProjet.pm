@@ -29,9 +29,11 @@ use PostScript::Simple 0.09;
 
 use strict;
 
-use postscript::PsTaskList;
-use model::Projet;
-package PsProjet;
+use TJPert::postscript::PsTaskList qw(new);
+use TJPert::model::Projet qw(new);
+
+
+package TJPert::postscript::PsProjet;
 
 =pod 
 
@@ -42,7 +44,7 @@ PsTaskList is before Projet so its functions override the non Specialised functi
 =cut
 
 use vars qw(@ISA);
-@ISA = qw( PsTaskList Projet );
+@ISA = qw(  TJPert::postscript::PsTaskList TJPert::model::Projet );
 
 =pod 
 
@@ -53,8 +55,8 @@ Currently the joining order is not critical.
 
 sub new {
     my ( $class, $ref ) = @_;
-    my $projet = Projet->new($ref);
-    my $psTaskList = PsTaskList->new($ref);
+    my $projet = TJPert::model::Projet->new($ref);
+    my $psTaskList = TJPert::postscript::PsTaskList->new($ref);
     #join the two class hashes into one. Developer: There is a risk that the order is wrong
     my $this = {( %{$psTaskList}, %{$projet} )};
     return bless $this, $class;
@@ -96,8 +98,8 @@ sub drawFile {
 
     # calculate bouding box
     my $bx =
-      ( $self->get_max_col + 1 ) * PsTask->get_task_width() * PsTask->cell_coef + 2 * $marginx;
-    my $by = ( $self->get_height ) * PsTask->get_task_height() * PsTask->cell_coef + 2 * $marginy + $cartouchey;
+      ( $self->get_max_col + 1 ) * TJPert::postscript::PsTask->get_task_width() * TJPert::postscript::PsTask->cell_coef + 2 * $marginx;
+    my $by = ( $self->get_height ) * TJPert::postscript::PsTask->get_task_height() * TJPert::postscript::PsTask->cell_coef + 2 * $marginy + $cartouchey;
 
     # create postscript file
     my $p =

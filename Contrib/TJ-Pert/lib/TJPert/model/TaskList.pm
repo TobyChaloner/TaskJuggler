@@ -52,11 +52,11 @@ use strict;
 
 
 
-use Task;
+use TJPert::model::Task qw(set_lin add_lin);
 
 
 
-package TaskList;
+package TJPert::model::TaskList;
 
 
 use Carp;
@@ -64,7 +64,7 @@ use Data::Dumper;
 
 
 use vars qw(@ISA);
-@ISA = qw( Task );
+@ISA = qw( TJPert::model::Task );
 
 sub max {
     my ($max) = shift (@_);
@@ -89,7 +89,7 @@ sub min {
 sub new {
     my ( $class, $ref ) = @_;
 
-    my $tasklist = Task->new($ref);
+    my $tasklist = TJPert::model::Task->new($ref);
     $tasklist->{Liste}     = [];
     $tasklist->{Max_X}     = -1;
     $tasklist->{Min_X}     = 999;

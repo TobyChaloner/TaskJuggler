@@ -24,8 +24,8 @@ use strict;
 
 use gv;
 
-use model::TaskList;
-use graphviz::GvTask;
+use TJPert::model::TaskList;
+use TJPert::graphviz::GvTask;
 
 =pod 
 
@@ -33,12 +33,12 @@ This package specialises TaskList for output to Postscript
 
 =cut
 
-package GvTaskList;
+package TJPert::graphviz::GvTaskList;
 
 
 
 use vars qw(@ISA);
-@ISA = qw( TaskList GvTask );
+@ISA = qw( TJPert::model::TaskList TJPert::graphviz::GvTask );
 
 
 sub new {

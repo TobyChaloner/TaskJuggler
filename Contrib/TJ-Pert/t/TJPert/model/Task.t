@@ -1,19 +1,24 @@
 #!/usr/bin/perl -w
+
+#cd ../../..; make -k test TEST_FILES=t/TJPert/model/Task.t
+
+
 use Data::Dumper;
 
 use FindBin;
 use lib $FindBin::Bin ;
+use lib "../../../lib";
 
 use XML::Simple;
 
-use TaskList;
+use TJPert::model::TaskList;
 
 use strict;
 
 use Test::More qw(no_plan);
 
 BEGIN {
-    use_ok('Task');
+    use_ok('TJPert::model::Task');
 }
 
 

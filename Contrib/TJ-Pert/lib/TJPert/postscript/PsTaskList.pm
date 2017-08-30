@@ -22,8 +22,8 @@ use PostScript::Simple 0.09;
 
 use strict;
 
-use model::TaskList;
-use postscript::PsTask;
+use TJPert::model::TaskList;
+use TJPert::postscript::PsTask;
 
 =pod 
 
@@ -31,18 +31,18 @@ This package specialises TaskList for output to Postscript
 
 =cut
 
-package PsTaskList;
+package  TJPert::postscript::PsTaskList;
 
 
 
 use vars qw(@ISA);
-@ISA = qw( TaskList PsTask );
+@ISA = qw(  TJPert::model::TaskList  TJPert::postscript::PsTask );
 
 
 sub new {
     my ( $class, $ref ) = @_;
-    my $tl = TaskList->new($ref);
-    my $pst = PsTask->new($ref);
+    my $tl = TJPert::model::TaskList->new($ref);
+    my $pst = TJPert::postscript::PsTask->new($ref);
     #join the two class hashes into one. Developer: There is a risk that the order is wrong
     my $this = {( %{$tl}, %{$pst} )};
     return bless $this, $class;
@@ -63,7 +63,7 @@ sub createTask
     print "PsTaskList::createTask\n";
     my $self = shift;
     my $task = shift;
-    return PsTask->new($task);
+    return TJPert::postscript::PsTask->new($task);
 }
 
 
@@ -79,7 +79,7 @@ sub createTaskList
     print "PsTaskList::createTaskList\n";
     my $self = shift;
     my $task = shift;
-    return PsTaskList->new($task);
+    return TJPert::postscript::PsTaskList->new($task);
 }
 
 
@@ -106,14 +106,14 @@ sub draw {
     my $task;
 
     # cell height
-    my $c_h = PsTask::get_task_height() * PsTask->cell_coef();
+    my $c_h = TJPert::postscript::PsTask::get_task_height() * TJPert::postscript::PsTask->cell_coef();
 
     # cell width
-    my $c_w = PsTask::get_task_width() * PsTask->cell_coef();
+    my $c_w = TJPert::postscript::PsTask::get_task_width() * TJPert::postscript::PsTask->cell_coef();
 
     #cell margins
-    my $m_x = ( $c_w - PsTask::get_task_width() ) / 2.0;
-    my $m_y = ( $c_h - PsTask::get_task_height() ) / 2.0;
+    my $m_x = ( $c_w - TJPert::postscript::PsTask::get_task_width() ) / 2.0;
+    my $m_y = ( $c_h - TJPert::postscript::PsTask::get_task_height() ) / 2.0;
 
     print "cell ht $c_h, cell margin $m_y\n";
 

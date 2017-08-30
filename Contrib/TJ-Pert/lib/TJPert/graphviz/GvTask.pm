@@ -1,5 +1,5 @@
 ######################################################################## 
-# Copyright (c) 2002 by Philippe Midol-Monnet <philippe@midol-monnet.org>
+# Copyright (c) 2017 Toby Chaloner
 # 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,11 +19,14 @@
 use strict;
 
 
-#use PostScript::Simple 0.09;
+use POSIX;
+
+
+
 use gv;
 
 
-use Task;
+use TJPert::model::Task;
 
 =head1 PSTASK
 
@@ -40,13 +43,13 @@ draw
 
 =cut
 
-package GvTask;
+package TJPert::graphviz::GvTask;
 
 
 
 
 use vars qw(@ISA);
-@ISA = qw( Task );
+@ISA = qw( TJPert::model::Task );
 
 
 
@@ -95,7 +98,7 @@ returns a ref to the node of the task
 
 =over 12
 
-=item C<draw(postscriptObject, x, y)>
+=item C<draw(graphvizObject, x, y)>
 
  The x 
  The y is the bottom corner.  so rest drawn above.

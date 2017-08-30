@@ -23,7 +23,7 @@ use PostScript::Simple 0.09;
 
 
 
-use Task;
+use TJPert::model::Task;
 
 =head1 PSTASK
 
@@ -40,13 +40,13 @@ draw
 
 =cut
 
-package PsTask;
+package TJPert::postscript::PsTask;
 
 
 
 
 use vars qw(@ISA);
-@ISA = qw( Task );
+@ISA = qw( TJPert::model::Task );
 
 
 
@@ -60,7 +60,7 @@ my $cell_coef   = 1.3;
 
 sub new {
     my ( $class, $ref ) = @_;
-    my $parent = Task->new($ref);
+    my $parent = TJPert::model::Task->new($ref);
     return bless ($parent);
 }
 

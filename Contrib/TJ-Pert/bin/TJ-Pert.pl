@@ -17,18 +17,29 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 #########################################################################
+use 5.008;
+use strict;
+
+
+BEGIN {
+
+our ($VERSION, @ISA, @EXPORT, @EXPORT_OK);
+
+$VERSION = '3.0';
+}
+
 
 use FindBin;
 use lib $FindBin::Bin ;
-use lib './model';
+#use lib './model';
 
-use postscript::PsProjet;
-use graphviz::GvProjet;
+use TJPert::postscript::PsProjet;
+use TJPert::graphviz::GvProjet;
 
 use strict;
 
 #use Carp;
-#use Data::Dumper;
+use Data::Dumper;
 
 
 my $file;
@@ -70,6 +81,7 @@ sub processArgs
     $which_view = "dynamic";	# not using original system
     while (@ARGV)
     {
+	my $found = 0;
 	my $a = $ARGV[0];
 	if (substr($a,0,1) eq "-") #
 	{
@@ -80,18 +92,18 @@ sub processArgs
 		die "-o <output filename>" if (@ARGV < 2);
 		shift @ARGV;
 		$output_file = $ARGV[0];
+		$found++;
 	    }
 	    if ($a eq "-t")
 	    {
 		die "-t <format>" if (@ARGV < 2);
 		shift @ARGV;
 		$file_format = $ARGV[0];
+		$found++;
 	    }
 	}			#if a - arg
-	else 
-	{
-	    #$offset = $ARGV[0];
-	}
+	#detect an unsupported argument
+	usage() if (!$found);
 	shift @ARGV;
     }				#foreach
 }
@@ -115,7 +127,7 @@ processArgs();
     my $projet;
     if ($which_view eq "original_postscript")
     {
-	$projet = PsProjet->new($projetxml);
+	$projet = TJPert::postscript::PsProjet->new($projetxml);
     } else
     {
 	$projet = GvProjet->new($projetxml);

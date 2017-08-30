@@ -4,10 +4,12 @@ html_docs
 dev
 *.eps
 TODO
-model/blib
-model/MYMETA.yml
-model/MYMETA.json
-model/Makefile
+lib/model/blib
+lib/model/Makefile
 .svn
 pod2htmd.tmp
-model/pm_to_blib
+pm_to_blib
+*.yml
+*.json
+Makefile
+blib

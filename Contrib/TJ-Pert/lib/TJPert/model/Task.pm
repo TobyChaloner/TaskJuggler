@@ -25,14 +25,14 @@ Not sure if get_id should be using UID or ID - see as go
 
 
 use POSIX;
-use TJPerlUtils;
+use TJPert::model::TJPerlUtils;
 
 use strict;
 
 
 
 
-package Task;
+package TJPert::model::Task;
 
 use Carp;
 use Data::Dumper;

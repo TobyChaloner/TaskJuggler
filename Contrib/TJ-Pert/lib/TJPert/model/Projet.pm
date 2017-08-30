@@ -21,12 +21,12 @@ use XML::Simple;
 
 use strict;
 
-use TJPerlUtils;
-use Task;
-use TaskList;
+use TJPert::model::TJPerlUtils;
+use TJPert::model::Task;
+use TJPert::model::TaskList;
 
 
-package Projet;
+package TJPert::model::Projet;
 
 #use Carp;
 #use Data::Dumper;
@@ -58,7 +58,7 @@ sub min {
 sub new {
     my ( $class, $ref ) = @_;
 
-    my $projet = TaskList->new($ref);
+    my $projet = TJPert::model::TaskList->new($ref);
     $projet->{xml} = $ref;
 
     bless $projet, $class;
@@ -94,7 +94,7 @@ sub get_name {
 
 sub get_version {
     my $self = shift;
-    return $self->{xml}{Version}
+    return $self->{xml}{SaveVersion}
 }
 
 

@@ -1,5 +1,5 @@
 ######################################################################## 
-# Copyright (c) 2002 by Philippe Midol-Monnet <philippe@midol-monnet.org>
+# Copyright (c) 2017 by Toby Chaloner
 # 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -25,18 +25,18 @@ CVersion of PostScript::Simple
 
 =cut
 
-#use PostScript::Simple 0.09;
+
 
 
 use strict;
 
 use gv;
 
-use graphviz::GvTaskList;
-use model::Projet;
+use TJPert::graphviz::GvTaskList;
+use TJPert::model::Projet;
 
 
-package GvProjet;
+package TJPert::graphviz::GvProjet;
 
 =pod 
 
@@ -47,7 +47,7 @@ GvTaskList is before Projet so its functions override the non Specialised functi
 =cut
 
 use vars qw(@ISA);
-@ISA = qw( GvTaskList Projet );
+@ISA = qw( TJPert::graphviz::GvTaskList TJPert::model::Projet );
 
 =pod 
 
