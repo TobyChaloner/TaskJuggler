@@ -78,7 +78,7 @@ this should be named differently.
 =cut
 
 sub drawFile {
-    print "PsProjet::draw\n";
+#    print "PsProjet::draw\n";
 
     my $self = shift;
 #print Dumper($self);

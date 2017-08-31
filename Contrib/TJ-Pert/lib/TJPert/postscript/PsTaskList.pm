@@ -60,7 +60,7 @@ Overload the method to create a Task, so it creates a PsTask
 
 sub createTask
 {
-    print "PsTaskList::createTask\n";
+#    print "PsTaskList::createTask\n";
     my $self = shift;
     my $task = shift;
     return TJPert::postscript::PsTask->new($task);
@@ -93,7 +93,7 @@ This is where -ve y is being applied
 
 # draw recursively all the tasks and dependencies
 sub draw {
-    print "PsTaskList::draw\n";
+#    print "PsTaskList::draw\n";
 #    print Dumper(@_);
     my $self = shift;
 
@@ -115,7 +115,7 @@ sub draw {
     my $m_x = ( $c_w - TJPert::postscript::PsTask::get_task_width() ) / 2.0;
     my $m_y = ( $c_h - TJPert::postscript::PsTask::get_task_height() ) / 2.0;
 
-    print "cell ht $c_h, cell margin $m_y\n";
+#    print "cell ht $c_h, cell margin $m_y\n";
 
     # draw dependencies lines
     my ( $x_rs, $y_rs, $x_ls, $y_ls );

@@ -70,16 +70,19 @@ sub processArgs
 {
     usage() if (@ARGV == 0);
 
-    $file       = shift @ARGV;
-    $input_file = $file;
     #detect original system
-    if (@ARGV == 0) 
+    if (@ARGV == 1)
     {
+	$file       = shift @ARGV;
+	$input_file = $file;
 	return;
     }
 
     $which_view = "dynamic";	# not using original system
-    while (@ARGV)
+    #
+    # Go through all but the last argument which is the file to process
+    #
+    while (@ARGV-1)
     {
 	my $found = 0;
 	my $a = $ARGV[0];
@@ -106,6 +109,12 @@ sub processArgs
 	usage() if (!$found);
 	shift @ARGV;
     }				#foreach
+    #if the last arg was eaten, by eg -t, then there is an issue
+    usage() if (@ARGV == 0);
+
+    #Last arg is the filename
+    $file       = shift @ARGV;
+    $input_file = $file;
 }
 
 
@@ -141,7 +150,6 @@ processArgs();
 
 
 
-    print "Creating $output_file\n";
 
     if ($which_view eq "original_postscript")
     {
@@ -155,13 +163,15 @@ processArgs();
 	    $file =~ s/xml$//;
 	}
 
-	$output_file = $file . "." . $file_format;
+	$output_file = $file . $file_format;
     }
 
     if (!$output_file)
     {
 	$output_file = $file . "." . $file_format;
     }
+
+    print "Creating $output_file\n";
 
     #arguments to this function are unique to the PsProject object.
     $projet->drawFile($output_file);
