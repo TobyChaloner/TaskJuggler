@@ -6,14 +6,14 @@ use lib $FindBin::Bin ;
 
 use XML::Simple;
 
-use TaskList;
+use TJPert::model::TaskList;
 
 use strict;
 
 use Test::More qw(no_plan);
 
 BEGIN {
-    use_ok('Task');
+    use_ok('TJPert::model::Task');
 }
 
 
@@ -22,7 +22,7 @@ package DerivedTaskList;
 
 sub new {
     my ( $class, $ref ) = @_;
-    my $tl = TaskList->new($ref);
+    my $tl = TJPert::model::TaskList->new($ref);
     my $this = {( %{$tl} )};
     return bless $this, $class;
 }
@@ -43,7 +43,7 @@ package main;
 
 #get a ref to 1st Task
 #path relative to the model directory, not this 't' one.
-my $input_file = "../test/output/testTask.msp.xml";
+my $input_file = "t/TJPert/data/output/simpleTasksTestData.msp.xml";
 my $projetxml =
     XMLin( $input_file, forcearray => [ "Task", "TaskID", "Previous" ] );
 
@@ -55,7 +55,7 @@ my $projetxml =
 #NI: subtasks
 
 #populate a TaskList do the 
-my $taskList = TaskList->new($projetxml);
+my $taskList = TJPert::model::TaskList->new($projetxml);
 #is( $task1->find_dep_lst($taskList), undef, "find_dep_lst on empty");
 $taskList->extract_list_task($projetxml);
 
@@ -86,10 +86,16 @@ is($taskList0->is_container(), 1, "is task a container");
 #find_id
 #
 #NI: subTasks
+#diag( Dumper($taskList->find_id(1)));
+#diag( $taskList->find_id(1)->{Task}->{UID});
 isnt($taskList->find_id(1), undef, "find_id");
 isnt($taskList->find_id(2), undef, "find_id");
 isnt($taskList->find_id(3), undef, "find_id");
 isnt($taskList->find_id(4), undef, "find_id");
+is($taskList->find_id(1)->{Task}->{UID}, 1, "find_id");
+is($taskList->find_id(2)->{Task}->{UID}, 2, "find_id");
+is($taskList->find_id(3)->{Task}->{UID}, 3, "find_id");
+is($taskList->find_id(4)->{Task}->{UID}, 4, "find_id");
 #not found
 is($taskList->find_id(5), undef, "find_id");
 

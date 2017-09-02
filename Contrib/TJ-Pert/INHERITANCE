@@ -1,0 +1,16 @@
+The inheritance model is multiple inheritance with common base classes.
+The risk of the wrong base class data being looked up by how Perl navigates up the tree is negated by all the data being in the same hash.
+
+This does restrict derived classes by making the rule that they cannot trash a base classes data.
+
+The new of derived classes needs to look like:-
+
+sub new {
+    my ( $class, $ref ) = @_;
+    my $tl = TJPert::model::TaskList->new($ref);
+    my $pst = TJPert::postscript::PsTask->new($ref);
+    my $this = {( %{$tl}, %{$pst} )};
+    return bless $this, $class;
+}
+
+

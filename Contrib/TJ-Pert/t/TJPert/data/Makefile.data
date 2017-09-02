@@ -1,0 +1,10 @@
+
+
+prepare-TJ-Pert-test-data: output/simpleTasksTestData.msp.xml
+
+output/simpleTasksTestData.msp.xml: simpleTasksTestData.tjp
+	if test ! -d output; then  mkdir output; fi
+	tj3 $< -o output
+
+clean:
+	rm -fr output

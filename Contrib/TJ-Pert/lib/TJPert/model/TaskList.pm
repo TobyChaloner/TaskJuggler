@@ -210,7 +210,7 @@ sub createTask
     print "TaskList::createTask\n";
     my $self    = shift;
     my $task = shift;
-    return Task->new($task);
+    return TJPert::model::Task->new($task);
 }
 
 
@@ -225,7 +225,7 @@ sub createTaskList
     print "TaskList::createTaskList\n";
     my $self    = shift;
     my $task = shift;
-    return TaskList->new($task);
+    return TJPert::model::TaskList->new($task);
 }
 
 

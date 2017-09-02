@@ -33,7 +33,7 @@ package TJPert::model::Projet;
 
 
 use vars qw(@ISA);
-@ISA = qw( TaskList );
+@ISA = qw( TJPert::model::TaskList );
 
 sub max {
     my ($max) = shift (@_);

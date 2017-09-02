@@ -6,26 +6,26 @@ use lib $FindBin::Bin ;
 
 use XML::Simple;
 
-use TaskList;
-use Projet;
+use TJPert::model::TaskList;
+use TJPert::model::Projet;
 
 use strict;
 
 use Test::More qw(no_plan);
 
 BEGIN {
-    use_ok('Task');
+    use_ok('TJPert::model::Task');
 }
 
 
 package DerivedProjet;
 
 use vars qw(@ISA);
-@ISA = qw( Projet );
+@ISA = qw( TJPert::model::Projet );
 
 sub new {
     my ( $class, $ref ) = @_;
-    my $p = Projet->new($ref);
+    my $p = TJPert::model::Projet->new($ref);
     my $this = $p;
     return bless $this, $class;
 }
@@ -53,7 +53,7 @@ package main;
 
 #get a ref to 1st Task
 #path relative to the model directory, not this 't' one.
-my $input_file = "../test/output/testTask.msp.xml";
+my $input_file = "t/TJPert/data/output/simpleTasksTestData.msp.xml";
 my $projetxml =
     XMLin( $input_file, forcearray => [ "Task", "TaskID", "Previous" ] );
 
@@ -71,7 +71,7 @@ my $prj = DerivedProjet->new($projetxml);
 #
 #get_name
 #
-is($prj->get_name(), "testTask.msp.xml", "get_name");
+is($prj->get_name(), "simpleTasksTestData.msp.xml", "get_name");
 
 
 
