@@ -40,12 +40,17 @@ package TJPert::graphviz::GvTaskList;
 use vars qw(@ISA);
 @ISA = qw( TJPert::model::TaskList TJPert::graphviz::GvTask );
 
+=pod 
+
+takes a ref to XML from XMLin which is a tasklist.  Could be a list of tasks which is a sub-list of another.
+
+=cut
 
 sub new {
     my ( $class, $ref ) = @_;
     my $tl =  TJPert::model::TaskList->new($ref);
     my $pst = TJPert::graphviz::GvTask->new($ref);
-    #join the two class hashes into one. Developer: There is a risk that the order is wrong
+    #join the two class hashes into one.
     my $this = {( %{$tl}, %{$pst} )};
     return bless $this, $class;
 }

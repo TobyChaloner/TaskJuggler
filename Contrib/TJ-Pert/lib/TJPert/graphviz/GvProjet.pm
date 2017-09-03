@@ -62,8 +62,28 @@ sub new {
     my $psTaskList = TJPert::graphviz::GvTaskList->new($ref);
     #join the two class hashes into one. Developer: There is a risk that the order is wrong
     my $this = {( %{$psTaskList}, %{$projet} )};
+    $this->{format} = 'png'; #default
     return bless $this, $class;
 }
+
+
+
+
+=pod 
+
+takes a string which is a valid graphviz format name eg
+png, plain
+
+=cut
+
+sub set_format
+{
+    my $self = shift;
+    ($self->{format}) = @_;
+}
+
+
+
 
 
 
@@ -162,31 +182,13 @@ sub drawFile {
 
 =cut
 
-    #
-    # (WAS) Invert the Y AXIS
-    #
-    # -ve Y values are on the page
-    
-    ###TOBY PROBLEM IS HERE
-    # inverse y axis
-    #print ${ $p->{pspages} }."+++\n";
-    #BUT following is being dumped at end of document.
-    #push @{ $p->{pspages} }, [["ps","$marginx u $by $marginy sub u translate \n"]];
-    #pspages implementation is now an array of strings
-    #assume code is...
-    ##  foreach my $page (@{$self->{pspages}}) {
-    ##    push @$doc, $self->_buildpage($page);
 
 
-#    $self->SUPER::draw( $p, 0 , -$by );
     $self->SUPER::draw( $g, 0 , 0 );
 
-#    $p->output($output_file);
-
-    
+    my $format = $self->{format};
     gv::layout($g, 'dot');
-    gv::render($g, 'png', $output_file); #####################
-    
+    gv::render($g, $format, $output_file); #####################
     gv::rm($g);
 
 }

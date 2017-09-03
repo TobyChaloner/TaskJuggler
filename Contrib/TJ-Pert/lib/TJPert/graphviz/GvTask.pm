@@ -49,7 +49,7 @@ package TJPert::graphviz::GvTask;
 
 
 use vars qw(@ISA);
-@ISA = qw( TJPert::model::Task );
+@ISA = qw(TJPert::model::Task);
 
 
 
@@ -59,7 +59,12 @@ my $task_width  = 4;      # 4cm
 my $task_height = 1.5;    # 1,5 cm
 my $cell_coef   = 1.3;
 
+=pod
 
+Takes a ref to a hash which is a task.
+The task is inputed from XML by XMLinthe XML
+
+=cut
 
 sub new {
     my ( $class, $ref ) = @_;

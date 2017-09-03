@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-#cd ../../..; make -k test TEST_FILES=t/TJPert/model/Task.t
+#cd ../../..; make; make -k test TEST_FILES=t/TJPert/model/Task.t
 
 
 use Data::Dumper;

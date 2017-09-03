@@ -98,8 +98,9 @@ sub new {
 
     bless $tasklist, $class;
 
-    return $tasklist;
+    $tasklist->set_height(0);#set cos, defaulting to undef not always tolerated
 
+    return $tasklist;
 }
 
 
@@ -501,7 +502,7 @@ sub draw
 # each task are put in a relative line
 sub put_in_line {
     my $self = shift;
-
+#print(Dumper($this));
     my $task;
 
     foreach $task ( @{ $self->{List} } ) {
@@ -514,7 +515,8 @@ sub put_in_line {
             $line++;
         }
         $task->set_lin($line);
-        if ( $self->get_height < $line + $task->get_height ) {
+        if ( $self->get_height < $line +
+	     $task->get_height ) {
             $self->set_height( $line + $task->get_height );
         }
     }
