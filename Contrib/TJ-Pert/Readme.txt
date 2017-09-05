@@ -80,21 +80,3 @@ philippe@midol-monnet.org
 
 
 
-Inheritance
-------------
-PJ-Perl -> PsProjet
-	      |   \
-	      __  __
-	      \/  \/
-	 Projet   PsTaskList
-              \     /  \ 
-              __   __   __
-	      \/   \/   \/
-	     TaskList   PsTask
-	        \      /
-		__   __
-		\/   \/
-	         Task
-
-Task List is multi inherited, but 1st to be seen is always the Projet one.
-

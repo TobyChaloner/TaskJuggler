@@ -1,0 +1,21 @@
+perl Makefile.PL
+make
+make test
+make install
+
+---------
+PREREQUISITES
+
+perl
+
+TaskJuggler version 3 has been installed.  The program name is tj3.
+
+With the apt system on Linux...
+apt-cache search TaskJuggler
+apt-get install  TaskJuggler
+
+
+The graphviz library and perl bindings have been installed.
+apt-cache search libgv-perl
+etc
+

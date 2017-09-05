@@ -53,7 +53,7 @@ my $file_format = "eps";
 
 sub usage
 {
-    print qq 'TJ-Pert.pl <input filename> [-t <fmt>] [-o <out filename>]
+    print qq 'TJ-Pert.pl [-t <fmt>] [-o <out filename>] <input filename>
 -t <output format> - See http://www.graphviz.org/content/output-formats
 -o <out filename> - defaults to infilename.<output format>
 ';
@@ -179,3 +179,71 @@ processArgs();
 
 
 
+__END__
+
+=head1 NAME
+
+    TJ-Pert.pl - Illustrate a MSP XML format file from TaskJuggler to a pert diagram
+
+=head1 SYNOPSIS
+
+    TJ-Pert.pl [-t <fmt>] [-o <out filename>] <input filename>
+
+
+     Options:
+      -t <output format> - See http://www.graphviz.org/content/output-formats
+      -o <out filename> - defaults to infilename.<output format>
+
+
+=head1 OPTIONS
+
+=over 8
+
+=item B<-t output_format>
+
+    Sets the output format eg png or plain
+
+=item B<-o out_filename>
+
+    Sets the output file path and filename
+
+=back
+
+=head1 DESCRIPTION
+
+    TJ-Pert.pl will take the input file and create a pert chart with it.  A pert chart is a project diagram showing the task dependencies as linked nodes.  The XML format is written by TaskJuggler in its Microsoft(tm) Project XML format (MSP).
+
+=pod
+
+
+An example TaskJuggler file to produce the output is:-
+
+ project k2 "a sequence"  2016-07-19 +3m {
+ timeformat "%d-%m-%Y"
+ now 2016-07-25
+ }
+
+ resource al "Albert"
+ resource be "Bertie"
+
+ task none "FirstTask" {
+     start 2016-07-20
+     end 2016-07-20
+     complete 48
+ }
+
+
+ task middle "50% complete" {
+     effort 1d
+     depends none
+     allocate al
+     complete 49
+ }
+
+ export pertexportn "simpleTasksTestData.msp" {
+  formats mspxml
+  hideresource 0
+ }
+
+
+=cut
