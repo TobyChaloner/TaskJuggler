@@ -128,7 +128,7 @@ sub draw {
 	{
 	    my $tn = $task->get_id();
 	    my $dn = $dep->get_id();
-	    my $edge = gv::edge($p, $tn, $dn);
+	    my $edge = gv::edge($p, $dn, $tn);
 	    gv::setv($edge, 'dir', 'forward');
 	    
 	}
