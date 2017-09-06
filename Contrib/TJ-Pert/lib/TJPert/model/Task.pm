@@ -53,6 +53,27 @@ sub new {
 }
 
 
+=pod
+
+added here as the assignments are only created once
+this is to be called after new
+
+These enable access to the allocated resources
+
+=cut
+
+sub set_assignments
+{
+    my $self = shift;
+    my $assignents = shift;
+    $self->{Assignments} = $assignents;
+}
+
+
+
+
+
+
 =pod 
 TODO
 Not sure if should be returning ID or UID
@@ -81,6 +102,22 @@ sub get_task_name {
     my $self = shift;
     return $self->{Task}->{Name};
 }
+
+
+
+=pod
+
+A string of all resource allocated to this task, comma separated
+eg "henry,arthur"
+
+=cut
+
+sub get_allocated
+{
+    my $self = shift;
+    return $self->{Assignments}->get_assignment($self->get_id() );
+}
+
 
 
 

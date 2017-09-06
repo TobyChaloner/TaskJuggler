@@ -104,6 +104,21 @@ sub new {
 }
 
 
+=pod
+
+added here as the assignments are only created once
+this is to be called after new
+
+=cut
+
+sub set_assignments
+{
+    my $self = shift;
+    my $assignents = shift;
+    $self->{Assignments} = $assignents;
+}
+
+
 =pod 
 	arg is a hash with contents like UID, Name, Start, Finish
 
@@ -185,7 +200,8 @@ sub extract_list_task {
 
             # the task have subtasks => create new TaskList
 	    $taskl = createTaskList($task);
-
+	    $taskl->set_assignments($self->{Assignments});
+	    
             # extract subtasks from xml/perl struct
             $taskl->extract_list_task( $task->{SubTasks} );
 
@@ -194,8 +210,9 @@ sub extract_list_task {
 
         }
         else {
-            $self->add_task( $self->createTask($task) );
-
+            my $ntask = $self->createTask($task);
+	    $ntask->set_assignments($self->{Assignments});
+	    $self->add_task( $ntask );
         }
     }
 }

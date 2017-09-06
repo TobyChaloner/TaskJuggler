@@ -45,23 +45,27 @@ use Data::Dumper;
 my $file;
 my $input_file;
 my $output_file;
+my $showWho = 0;
+my $showPercentComplete = 0;
+
 
 my $which_view = "original_postscript";
-
 my $file_format = "eps";
+
+
+
 
 
 sub usage
 {
-    print qq 'TJ-Pert.pl [-t <fmt>] [-o <out filename>] <input filename>
+    print qq 'TJ-Pert.pl [-c] [-w] [-t <fmt>] [-o <out filename>] <input filename>
 -t <output format> - See http://www.graphviz.org/content/output-formats
 -o <out filename> - defaults to infilename.<output format>
+-w - who has been allocated to this task
+-c - show percentage complete
 ';
     exit 1;
 }
-
-
-
 
 
 
@@ -102,6 +106,16 @@ sub processArgs
 		die "-t <format>" if (@ARGV < 2);
 		shift @ARGV;
 		$file_format = $ARGV[0];
+		$found++;
+	    }
+	    if ($a eq "-w")
+	    {
+		$showWho++;
+		$found++;
+	    }
+	    if ($a eq "-c")
+	    {
+		$showPercentComplete++;
 		$found++;
 	    }
 	}			#if a - arg
@@ -174,7 +188,11 @@ processArgs();
     print "Creating $output_file\n";
 
     #arguments to this function are unique to the PsProject object.
-    $projet->drawFile($output_file);
+    $projet->drawFile($output_file,
+		      {
+		       'who' => $showWho,
+		       percentComplete => $showPercentComplete,
+		      });
 
 
 
@@ -187,12 +205,14 @@ __END__
 
 =head1 SYNOPSIS
 
-    TJ-Pert.pl [-t <fmt>] [-o <out filename>] <input filename>
+    TJ-Pert.pl [-c] [-w] [-t <fmt>] [-o <out filename>] <input filename>
 
 
      Options:
       -t <output format> - See http://www.graphviz.org/content/output-formats
       -o <out filename> - defaults to infilename.<output format>
+      -w - who has been allocated to this task
+      -c - show percentage complete
 
 
 =head1 OPTIONS

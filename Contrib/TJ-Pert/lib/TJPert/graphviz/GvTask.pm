@@ -115,6 +115,7 @@ sub draw {
     my $gv = shift;
     my $x_pos  = shift;
     my $y_pos  = shift;
+    my $rhOutputFlags = shift;
 
     #print Dumper($self);
 
@@ -130,6 +131,7 @@ sub draw {
     my $start = POSIX::strftime( "%x", localtime( $self->get_start() ) );
     if ($self->is_milestone() )
     {
+	#milestone
 	my $node = gv::node($gv, $self->get_id());
 	gv::setv($node, 'label',$name."\n".$start);######################## \n is wrong
 	gv::setv($node, 'shape','diamond'); #or plaintext
@@ -138,6 +140,10 @@ sub draw {
     }
     else
     {
+	#normal task
+	my $info = "";
+	$info .= $self->get_allocated() if ($rhOutputFlags->{who});
+print "info $info i\n";
 	my $end = POSIX::strftime( "%x", localtime( $self->get_end() ) );
 	my $html = qq'< 
 <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"> 
@@ -150,7 +156,7 @@ sub draw {
   <TD COLSPAN="3">'.$name.'</TD>
  </TR>
  <TR> 
-  <TD COLSPAN="3"></TD>
+  <TD COLSPAN="3">'.$info.'</TD>
  </TR> 
 </TABLE> >';
 
@@ -161,82 +167,17 @@ sub draw {
 #	$self->{'gv_node'} = \$node;
 
     }
-    #  print $x_pos, " ",$y_pos, "\n";
-
-=pod 
-
-    # blank zone
-    $out_ps->setcolour("white") or die $out_ps->err();
-    $out_ps->box( {filled => 1}, $x_pos, $y_pos, $x_pos + $task_width, $y_pos + $task_height) or die $out_ps->err();
-
-=cut
-
-=pod 
-
-    # draw rectangle surrounding this task
-    $out_ps->setcolour("black") or die $out_ps->err();
-    $out_ps->box( $x_pos, $y_pos, $x_pos + $task_width, $y_pos + $task_height ) or die $out_ps->err();
 
 
 
-    my $x3          = $task_width / 3.0;
-    my $y4          = $task_height / 4.0;
-    my $text_margin = $y4 / 4.0;
-
-    if ($self->is_milestone() )
-    {
-	#milestone has a top central box
-	#in which the sole date goes
-	#there are no lower boxes
-	$out_ps->box($x_pos + $x3, $y_pos + 3 * $y4, $x_pos + 2 * $x3, $y_pos + $task_height) or die $out_ps->err();
-    } else
-    {
-	# draw each rectangle inside
-	#draws at top, 3 boxes. left:Start Date, right: end Date.
-	#at bottom, 3 boxes.  Not sure what for.
-	$out_ps->line( $x_pos, $y_pos + $y4, $x_pos + $task_width, $y_pos + $y4 ) or die $out_ps->err();
-	$out_ps->line( $x_pos, $y_pos + 3 * $y4, $x_pos + $task_width,
-		       $y_pos + 3 * $y4 ) or die $out_ps->err();
-	$out_ps->line( $x_pos + $x3, $y_pos, $x_pos + $x3, $y_pos + $y4 ) or die $out_ps->err();
-	$out_ps->line( $x_pos + 2 * $x3, $y_pos, $x_pos + 2 * $x3, $y_pos + $y4 ) or die $out_ps->err();
-	$out_ps->line( $x_pos + $x3, $y_pos + 3 * $y4, $x_pos + $x3,
-		       $y_pos + $task_height ) or die $out_ps->err();
-	$out_ps->line(
-		      $x_pos + 2 * $x3, $y_pos + 3 * $y4,
-		      $x_pos + 2 * $x3, $y_pos + $task_height
-		     ) or die $out_ps->err();
-
-    }
 
 =pod 
 
     # draw progress bar (% complete)
     #drawn over the three bottom boxes
     $out_ps->setcolour("grey80") or die $out_ps->err();
-    $out_ps->box( {filled => 1}, $x_pos, 
-		  $y_pos + $y4, 
-		  $x_pos + $task_width *  $self->get_percent_complete() / 100.0,
-		  $y_pos + 2 * $y4
-		) or die $out_ps->err();
-    $out_ps->setcolour("black") or die $out_ps->err();
-
-
-
     print "draw: Percent Complete (SUPPRESSED): ".$self->get_percent_complete()."\n";
 
-    # write text
-    # In the example from V2, this was text, in the version downloaded,
-    # This was just the ID.  Not sure why.
-    #WEAKNESS: A long string is going to cause problems.
-    # Task ID
-#   my $text = $self->get_id();
-    my $text = $self->get_task_name();
-    $out_ps->text( {align => 'centre'},
-        $x_pos + $task_width / 2.0, $y_pos + 2 * $y4 + $text_margin,
-        $text
-		 ) or die $out_ps->err();
-
-#print "id: ".$self->get_id()."\n";
 
 
 =pod 
@@ -256,34 +197,6 @@ sub draw {
 
 
 
-    #we want to show the date this is planned to start, or the date it did start.  This was different in the v2 XML
-    # Start
-    my $start = POSIX::strftime( "%x", localtime( $self->get_start() ) );
-
-
-   if ($self->is_milestone() )
-	{
-    $out_ps->text( {align => 'centre'},
-        $x_pos + $x3 + $x3 / 2.0, $y_pos + 3 * $y4 + $text_margin,
-        $start
-    ) or die $out_ps->err();
-    }
-    else
-    {
-    $out_ps->text( {align => 'centre'},
-        $x_pos + $x3 / 2.0, $y_pos + 3 * $y4 + $text_margin,
-        $start
-    ) or die $out_ps->err();
-    }
-    # End
-
-    my $end = POSIX::strftime( "%x", localtime( $self->get_end() ) );
-
-   if (!$self->is_milestone() )
-   {
-       $out_ps->text( {align => 'centre'}, $x_pos + 2 * $x3 + $x3 / 2.0,
-		      $y_pos + 3 * $y4 + $text_margin, $end ) or die $out_ps->err();
-   }
 
 =cut
 

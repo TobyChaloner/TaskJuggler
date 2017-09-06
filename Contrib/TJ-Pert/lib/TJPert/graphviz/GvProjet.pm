@@ -101,12 +101,13 @@ this should be named differently.
 =cut
 
 sub drawFile {
-    print "PsProjet::draw\n";
+#    print "GvProjet::draw\n";
 
     my $self = shift;
 #print Dumper($self);
 
     my $output_file = shift;
+    my $rhOutputFlags = shift;
 
 
 
@@ -184,7 +185,7 @@ sub drawFile {
 
 
 
-    $self->SUPER::draw( $g, 0 , 0 );
+    $self->SUPER::draw( $g, 0 , 0 , $rhOutputFlags);
 
     my $format = $self->{format};
     gv::layout($g, 'dot');

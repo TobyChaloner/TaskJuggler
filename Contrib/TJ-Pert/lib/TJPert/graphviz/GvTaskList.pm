@@ -67,7 +67,7 @@ Overload the method to create a Task, so it creates a GvTask
 
 sub createTask
 {
-    print "GvTaskList::createTask\n";
+#    print "GvTaskList::createTask\n";
     my $self = shift;
     my $task = shift;
     return TJPert::graphviz::GvTask->new($task);
@@ -100,7 +100,7 @@ This is where -ve y is being applied
 
 # draw recursively all the tasks and dependencies
 sub draw {
-    print "GvTaskList::draw\n";
+#    print "GvTaskList::draw\n";
 #    print Dumper(@_);
     my $self = shift;
 
@@ -109,6 +109,7 @@ sub draw {
 
     my $xpos = shift;
     my $ypos = shift;
+    my $rhOutputFlags = shift;
 
     my $task;
 
@@ -117,7 +118,7 @@ sub draw {
     # draw tasks
     foreach $task ( @{ $self->{List} } ) {
 	#task is responsible for remembering its Gv ID
-	$task->draw( $p, 0,0 );
+	$task->draw( $p, 0,0, $rhOutputFlags);
     }
 
     #draw lines between dependents

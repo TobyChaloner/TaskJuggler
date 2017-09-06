@@ -24,6 +24,7 @@ use strict;
 use TJPert::model::TJPerlUtils;
 use TJPert::model::Task;
 use TJPert::model::TaskList;
+use TJPert::model::Assignments;
 
 
 package TJPert::model::Projet;
@@ -60,7 +61,9 @@ sub new {
 
     my $projet = TJPert::model::TaskList->new($ref);
     $projet->{xml} = $ref;
-
+    $projet->{Assignments} = TJPert::model::Assignments->new($ref);
+    #dont need to set assignents as I am a task list
+    
     bless $projet, $class;
 
     return $projet;
