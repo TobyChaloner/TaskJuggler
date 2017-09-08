@@ -18,6 +18,20 @@ use strict;
 
 use Test::More qw(no_plan);
 
+
+sub timeToStringYMD
+{
+    my ($time_epoch) = @_;
+    #diag($time_epoch);
+    my @times = gmtime($time_epoch);
+    #diag("@times");
+    my $str = ($times[5] + 1900) . "/" . ($times[4] + 1) . "/" . $times[3];
+    #diag($str);
+    return ($str);
+}
+
+
+
 BEGIN {
     use_ok('TJPert::model::Task');
 }
@@ -98,8 +112,9 @@ can_ok('TJPert::model::Task', ('is_container'));
 is($task0->is_container(), 0, "is_container == 0");
 
 
+
 can_ok('TJPert::model::Task', ('get_end'));
-is($task0->get_end(), 1471647600, "get_end");
+is(timeToStringYMD($task0->get_end()), "2016/7/21", "get_end");
 
 can_ok('TJPert::model::Task', ('is_milestone'));
 isnt($task0->is_milestone(), 1, "!is_milestone");
@@ -110,7 +125,11 @@ is($task1->get_percent_complete(), 49, "get_percent_complete != 49");
 
 
 can_ok('TJPert::model::Task', ('get_start'));
-is($task1->get_start(), 1471680000, "get_start");
+can_ok('TJPert::model::Task', ('get_end'));
+is(timeToStringYMD($task0->get_start()), "2016/7/20", "get_start");
+
+
+diag( Dumper($task0));
 
 
 #id_to_abs unchanged
@@ -154,5 +173,5 @@ isnt($task->(), undef, " != undef");
 
 
 
-
-exit 0;
+1;
+#exit 0;

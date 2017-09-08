@@ -20,13 +20,13 @@ resource be "Bertie"
 
 task none "FirstTask" {
      start 2016-07-20
-     end 2016-07-20
+     end 2016-07-21
      complete 48
 }
 
 
 task middle "50% complete" {
-     effort 1d
+     effort 2d
      depends none
      allocate al
      complete 49
@@ -34,7 +34,7 @@ task middle "50% complete" {
 
      
 task follows "Not Started" {
-     effort 1d
+     effort 3d
      allocate be
      depends middle, none
 }
