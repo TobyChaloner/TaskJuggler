@@ -132,7 +132,7 @@ can_ok('TJPert::model::Task', ('get_end'));
 is(timeToStringYMD($task0->get_start()), "2016/7/20", "get_start");
 
 
-diag( Dumper($task0));
+#diag( Dumper($task0));
 
 
 #id_to_abs unchanged
