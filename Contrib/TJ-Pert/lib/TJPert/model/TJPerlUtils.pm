@@ -4,8 +4,10 @@ package TJPerlUtils;
 use POSIX;
 
 =pod 
+
 takes '2017-08-23T17:00:00'
 returns 1506182400
+works on local time, not GMT
 
 =cut
 sub util_sub_msp_time_to_unix_time

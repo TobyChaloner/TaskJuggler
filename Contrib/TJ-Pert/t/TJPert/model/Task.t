@@ -18,12 +18,15 @@ use strict;
 
 use Test::More qw(no_plan);
 
-
+#takes a unix time number 0: epoch 1970
+#in 1436742000
+#out "13/7/2015"
+#returns in localtime - current timezone
 sub timeToStringYMD
 {
     my ($time_epoch) = @_;
     #diag($time_epoch);
-    my @times = gmtime($time_epoch);
+    my @times = localtime($time_epoch);
     #diag("@times");
     my $str = ($times[5] + 1900) . "/" . ($times[4] + 1) . "/" . $times[3];
     #diag($str);
