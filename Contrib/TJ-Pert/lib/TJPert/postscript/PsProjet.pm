@@ -44,7 +44,7 @@ PsTaskList is before Projet so its functions override the non Specialised functi
 =cut
 
 use vars qw(@ISA);
-@ISA = qw(  TJPert::postscript::PsTaskList TJPert::model::Projet );
+@ISA = qw(  TJPert::postscript::PsTaskList TJPert::model::Projet   );
 
 =pod 
 

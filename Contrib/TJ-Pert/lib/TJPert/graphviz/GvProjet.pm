@@ -39,7 +39,7 @@ package TJPert::graphviz::GvProjet;
 
 
 use vars qw(@ISA);
-@ISA = qw( TJPert::graphviz::GvTaskList TJPert::model::Projet );
+@ISA = qw( TJPert::graphviz::GvTaskList TJPert::model::Projet   );
 
 
 
@@ -106,13 +106,13 @@ sub drawFile {
 
     #draw cartouche
     my $cartouche_text = "";
-    $cartouche_text .= $self->get_name()." ".$self->get_version()."\n";
+    $cartouche_text .= $self->get_name().", version ".$self->get_version()."\n";
 
 
     # start, end , now
-    $cartouche_text .= "Start: ". $self->get_start()."\n";
-    $cartouche_text .= "Now: ". $self->get_now()."\n";
-    $cartouche_text .= "End: ". $self->get_end1()."\n";
+    $cartouche_text .= "Start: ". $self->get_plan_start()."\n";
+    $cartouche_text .= "Now: ". $self->get_plan_now()."\n";
+    $cartouche_text .= "End: ". $self->get_plan_end()."\n";
 print "cartouche_text $cartouche_text\n";
 #exit;
     #my $node = gv::node($g, $self->get_id()); # I dont have an id

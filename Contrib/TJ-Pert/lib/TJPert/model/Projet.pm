@@ -103,7 +103,7 @@ sub get_version {
 
 
 
-sub get_end1 {
+sub get_plan_end {
     my $self = shift;
 #print "here\n\n".dump($self);
     my $mspTime = $self->{xml}{FinishDate};
@@ -112,7 +112,8 @@ sub get_end1 {
 }
 
 
-sub get_start {
+sub get_plan_start {
+    print "Projet::get_start\n";
     my $self = shift;
     my $mspTime = $self->{xml}{StartDate};
     my $time = TJPerlUtils::util_sub_msp_time_to_unix_time($mspTime);
@@ -120,7 +121,7 @@ sub get_start {
 }
 
 
-sub get_now {
+sub get_plan_now {
     my $self = shift;
 
     my $mspTime = $self->{xml}{CurrentDate};

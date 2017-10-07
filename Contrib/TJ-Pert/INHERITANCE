@@ -1,6 +1,7 @@
 The inheritance model is multiple inheritance with common base classes.
 The risk of the wrong base class data being looked up by how Perl navigates up the tree is negated by all the data being in the same hash.
 
+Data inheritance is in the new function.
 This does restrict derived classes by making the rule that they cannot trash a base classes data.
 
 The new of derived classes needs to look like:-
@@ -32,4 +33,6 @@ PJ-Perl -> PsProjet
 
 Task List is multi inherited, but 1st to be seen is always the Projet one.
 
+Method inheritance is in the ISA array.
+@ISA = qw(  TJPert::model::Projet TJPert::graphviz::GvTaskList );
 
