@@ -13,6 +13,7 @@ works on local time, not GMT
 sub util_sub_msp_time_to_unix_time
 {
     my ($msp_time) = @_;
+    return 0 if (!defined $msp_time || $msp_time eq "");
     my @parts= $msp_time=~/(\d+)-(\d+)-(\d+)T(\d+):(\d+):(\d+)/;
     my $year = $parts[0] - 1900; #2017 is 107
     #Month is 0-11, humans use 1-12 # hence month is - 1

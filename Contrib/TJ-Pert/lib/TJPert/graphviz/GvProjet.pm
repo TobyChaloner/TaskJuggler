@@ -112,10 +112,11 @@ sub drawFile {
     $cartouche_text .= "Start: ". $self->get_start()."\n";
     $cartouche_text .= "Now: ". $self->get_now()."\n";
     $cartouche_text .= "End: ". $self->get_end()."\n";
-    my $node = gv::node($gv, $self->get_id());
+    #my $node = gv::node($g, $self->get_id()); # I dont have an id
+    my $node = gv::node($g, "top-node");
     gv::setv($node, 'label',$cartouche_text);
     gv::setv($node, 'shape','box');
-    gv::setv($ttl, 'color','blue');
+    gv::setv($node, 'color','blue');
 
 # a ajouter : nom du projet + info du projet voir dtd
 
