@@ -17,13 +17,6 @@
 #
 #########################################################################
 
-=pod 
-
-CVersion of PostScript::Simple
-
- Assuming $p->{pspages} is an array.  In earlier versions, it was a string
-
-=cut
 
 
 
@@ -38,29 +31,28 @@ use TJPert::model::Projet;
 
 package TJPert::graphviz::GvProjet;
 
-=pod 
 
-Inheritance
 
-GvTaskList is before Projet so its functions override the non Specialised functions
+# Inheritance
+# GvTaskList is before Projet so its functions override the non Specialised functions
 
-=cut
+
 
 use vars qw(@ISA);
 @ISA = qw( TJPert::graphviz::GvTaskList TJPert::model::Projet );
 
-=pod 
 
-Because of the multiple inheritance, the hashes of both superclasses need to be joined.
-Currently the joining order is not critical.
 
-=cut
+# Because of the multiple inheritance, the hashes of both superclasses need to be joined.
+# Currently the joining order is not critical.
+
+
 
 sub new {
     my ( $class, $ref ) = @_;
     my $projet = TJPert::model::Projet->new($ref);
     my $psTaskList = TJPert::graphviz::GvTaskList->new($ref);
-    #join the two class hashes into one. Developer: There is a risk that the order is wrong
+    #join the two class hashes into one.
     my $this = {( %{$psTaskList}, %{$projet} )};
     $this->{format} = 'png'; #default
     return bless $this, $class;
@@ -69,13 +61,10 @@ sub new {
 
 
 
-=pod 
 
-takes a string which is a valid graphviz format name eg
-png, plain
 
-=cut
-
+# takes a string which is a valid graphviz format name eg
+# png, plain
 sub set_format
 {
     my $self = shift;
@@ -89,16 +78,14 @@ sub set_format
 
 
 
-=pod 
 
-The drawing in this routine are default bottom left orientated.
-However the y axis is reversed, before the pert components are laid
-out.  If they are not visible, its becaus they're below the page.
 
-The arguments to this function are different to the 'draw' function arguments, so
-this should be named differently.
-
-=cut
+# The drawing in this routine are default bottom left orientated.
+# However the y axis is reversed, before the pert components are laid
+# out.  If they are not visible, its becaus they're below the page.
+#
+# The arguments to this function are different to the 'draw' function arguments, so
+# this should be named differently.
 
 sub drawFile {
 #    print "GvProjet::draw\n";
@@ -111,85 +98,32 @@ sub drawFile {
 
 
 
-    my $g=gv::graph('gg'); ########################
+    my $g=gv::graph('gg');
 
     gv::setv($g, 'rankdir', "LR");
 
-=pod 
-    
-
-
-    my $marginx = 1.0; # 1cm
-    my $marginy = 1.0; # 1cm
-    my $cartouchex = 7.0; # 10cm
-    my $cartouchey = 2.0; # 4cm
-
-    #
-    # Normal Y AXIS 
-    #
-    # +ve Y values are on the page
-
-
-    # calculate bouding box
-    my $bx =
-      ( $self->get_max_col + 1 ) * GvTask->get_task_width() * GvTask->cell_coef + 2 * $marginx;
-    my $by = ( $self->get_height ) * GvTask->get_task_height() * GvTask->cell_coef + 2 * $marginy + $cartouchey;
-
-    # create postscript file
-    my $p =
-      new PostScript::Simple( units => "cm", xsize => $bx, ysize => $by,
-        eps => 1 );
-
-    $p->setfont( "Times-Roman-iso", 9 ) or die $p->err();
-
-=pod 
 
     #draw cartouche
-#    $p->setlinewidth(0.1);
-#    $p->box( 0, 0, $bx, $by);
-#    $p->setlinewidth(0.025);
-    $p->box( $marginx , $marginy, 
-	     $bx - $marginx , $by - $marginy) or die $p->err();
-	
-    my $lineheight = $cartouchey / 4.0;
-    my $colwidth = $cartouchex / 4.0;
-    $p->box( $marginx , $marginy, 
-	     $marginx + $cartouchex , $marginy + $cartouchey) or die $p->err();
-    # title + version
-    $p->line( $marginx, $marginy + $lineheight,
-	     $marginx + $cartouchex, $marginy + $lineheight) or die $p->err();
-#    $p->text( $marginx +  $cartouchex / 2.0, $marginy + $lineheight / 3.5,
-#        $self->get_name()." ".$self->get_version(), 'centre'
-    #The centre arg appears to have moved
-    $p->text( {align => 'centre'}, $marginx +  $cartouchex / 2.0, $marginy + $lineheight / 3.5,
-        $self->get_name()." ".$self->get_version()
-    ) or die $p->err();
+    my $cartouche_text = "";
+    $cartouche_text .= $self->get_name()." ".$self->get_version()."\n";
+
 
     # start, end , now
-    $p->line( $marginx, $marginy + 2.0 * $lineheight,
-	     $marginx + $cartouchex, $marginy + 2.0 * $lineheight) or die $p->err();
-    $p->line( $marginx, $marginy + 3.0 * $lineheight,
-	     $marginx + $cartouchex, $marginy + 3.0 * $lineheight) or die $p->err();
-    $p->line( $marginx + $colwidth, $marginy + $lineheight, 
-	      $marginx + $colwidth, $marginy + $cartouchey) or die $p->err();
-    $p->text(  {align => 'centre'}, $marginx + $colwidth / 2.0, $marginy + $lineheight / 3.5 + $lineheight, "End") or die $p->err();
-    $p->text(  {align => 'centre'}, $marginx + $colwidth / 2.0, $marginy + $lineheight / 3.5 + 2 * $lineheight, "Start") or die $p->err();
-    $p->text( {align => 'centre'}, $marginx + $colwidth / 2.0, $marginy + $lineheight / 3.5 + 3 * $lineheight, "Now") or die $p->err();
-    $p->text( {align => 'centre'}, $marginx + 2.5 *$colwidth, $marginy + $lineheight / 3.5 + $lineheight, $self->get_end()) or die $p->err();
-    $p->text(  {align => 'centre'},$marginx + 2.5 *$colwidth, $marginy + $lineheight / 3.5 + 2 * $lineheight, $self->get_start()) or die $p->err();
-    $p->text(  {align => 'centre'},$marginx + 2.5 *$colwidth, $marginy + $lineheight / 3.5 + 3 * $lineheight, $self->get_now()) or die $p->err();
+    $cartouche_text .= "Start: ". $self->get_start()."\n";
+    $cartouche_text .= "Now: ". $self->get_now()."\n";
+    $cartouche_text .= "End: ". $self->get_end()."\n";
+    my $node = gv::node($gv, $self->get_id());
+    gv::setv($node, 'label',$cartouche_text);
+    gv::setv($node, 'shape','box');
+    gv::setv($ttl, 'color','blue');
 
 # a ajouter : nom du projet + info du projet voir dtd
-
-=cut
-
-
 
     $self->SUPER::draw( $g, 0 , 0 , $rhOutputFlags);
 
     my $format = $self->{format};
     gv::layout($g, 'dot');
-    gv::render($g, $format, $output_file); #####################
+    gv::render($g, $format, $output_file);
     gv::rm($g);
 
 }

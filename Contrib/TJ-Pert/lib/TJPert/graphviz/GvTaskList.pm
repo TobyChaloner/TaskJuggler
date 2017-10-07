@@ -17,7 +17,6 @@
 #
 #########################################################################
 
-#use PostScript::Simple 0.09;
 
 
 use strict;
@@ -27,11 +26,9 @@ use gv;
 use TJPert::model::TaskList;
 use TJPert::graphviz::GvTask;
 
-=pod 
 
-This package specialises TaskList for output to Postscript
+# This package specialises TaskList for output to Postscript
 
-=cut
 
 package TJPert::graphviz::GvTaskList;
 
@@ -40,11 +37,9 @@ package TJPert::graphviz::GvTaskList;
 use vars qw(@ISA);
 @ISA = qw( TJPert::model::TaskList TJPert::graphviz::GvTask );
 
-=pod 
 
-takes a ref to XML from XMLin which is a tasklist.  Could be a list of tasks which is a sub-list of another.
 
-=cut
+# takes a ref to XML from XMLin which is a tasklist.  Could be a list of tasks which is a sub-list of another.
 
 sub new {
     my ( $class, $ref ) = @_;
@@ -59,11 +54,8 @@ sub new {
 
 
 
-=pod 
 
-Overload the method to create a Task, so it creates a GvTask
-
-=cut
+# Overload the method to create a Task, so it creates a GvTask
 
 sub createTask
 {
@@ -75,11 +67,9 @@ sub createTask
 
 
 
-=pod 
 
-Overload the method to create a TaskList, so it creates a GvTaskList
 
-=cut
+# Overload the method to create a TaskList, so it creates a GvTaskList
 
 sub createTaskList
 {
@@ -93,12 +83,8 @@ sub createTaskList
 
 
 
-=pod 
-This is where -ve y is being applied
-
-=cut
-
 # draw recursively all the tasks and dependencies
+
 sub draw {
 #    print "GvTaskList::draw\n";
 #    print Dumper(@_);
@@ -131,12 +117,13 @@ sub draw {
 	    my $dn = $dep->get_id();
 	    my $edge = gv::edge($p, $dn, $tn);
 	    gv::setv($edge, 'dir', 'forward');
-	    
 	}
     }
 
 =pod 
-    
+    #
+    # This part is where the sub-tasks should be output
+    #
 
 
     

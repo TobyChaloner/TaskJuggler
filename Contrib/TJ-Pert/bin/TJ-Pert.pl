@@ -209,7 +209,7 @@ __END__
 
 
      Options:
-      -t <output format> - See http://www.graphviz.org/content/output-formats
+      -t <output format> - eg png
       -o <out filename> - defaults to infilename.<output format>
       -w - who has been allocated to this task
       -c - show percentage complete
@@ -222,6 +222,7 @@ __END__
 =item B<-t output_format>
 
     Sets the output format eg png or plain
+    See http://www.graphviz.org/content/output-formats
 
 =item B<-o out_filename>
 
@@ -264,6 +265,20 @@ An example TaskJuggler file to produce the output is:-
   formats mspxml
   hideresource 0
  }
+
+=head1 EXAMPLE
+
+     Appending 
+       export pertexportn "tutorial.msp" {
+         formats mspxml
+         hideresource 0
+        }
+    to the end of the tutorial.tjp
+    tj3 tutorial.tjp
+    TJ-Pert.pl -w -t  -c tutorial.msp.xml
+
+
+=pod
 
 
 =cut

@@ -28,20 +28,11 @@ use gv;
 
 use TJPert::model::Task;
 
-=head1 PSTASK
 
-GvTask - Outputs a Task as Postscript
+# GvTask - Outputs a Task as Postscript
 
-=head1 DESCRIPTION
 
-This class draws a task in a box.  The task is annotated with start and end dates and the progress.  Milestones have only a single date.
-
-=head2 Methods
-
-new
-draw
-
-=cut
+# This class draws a task in a box.  The task is annotated with start and end dates and the progress.  Milestones have only a single date.
 
 package TJPert::graphviz::GvTask;
 
@@ -59,12 +50,10 @@ my $task_width  = 4;      # 4cm
 my $task_height = 1.5;    # 1,5 cm
 my $cell_coef   = 1.3;
 
-=pod
 
-Takes a ref to a hash which is a task.
-The task is inputed from XML by XMLinthe XML
 
-=cut
+# Takes a ref to a hash which is a task.
+# The task is inputed from XML by XMLinthe XML
 
 sub new {
     my ( $class, $ref ) = @_;
@@ -90,25 +79,10 @@ sub cell_coef {
 
 
 
-=item get_gv_node
 
-returns a ref to the node of the task
-
-=cut
-
-
-
-
-
-
-=over 12
-
-=item C<draw(graphvizObject, x, y)>
-
- The x 
- The y is the bottom corner.  so rest drawn above.
-
-=cut
+ # draw
+ # The x 
+ # The y is the bottom corner.  so rest drawn above.
 
 sub draw {
     my $self   = shift;
@@ -143,7 +117,7 @@ sub draw {
 	#normal task
 	my $info = "";
 	$info .= $self->get_allocated() if ($rhOutputFlags->{who});
-print "info $info i\n";
+#print "info $info i\n";
 	my $end = POSIX::strftime( "%x", localtime( $self->get_end() ) );
 	my $html = qq'< 
 <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"> 
@@ -177,25 +151,6 @@ print "info $info i\n";
     #drawn over the three bottom boxes
     $out_ps->setcolour("grey80") or die $out_ps->err();
     print "draw: Percent Complete (SUPPRESSED): ".$self->get_percent_complete()."\n";
-
-
-
-=pod 
-
-        The following dates are available.  They are NOT in the unix epoch LONG INT which the original xml had
-          'ManualFinish' => '2017-08-23T17:00:00',
-          'ActualFinish' => '2017-08-23T17:00:00',
-          'ManualStart' => '2017-08-23T09:00:00',
-          'ConstraintDate' => '2017-08-23T09:00:00',
-          'Finish' => '2017-08-23T17:00:00',
-          'Start' => '2017-08-23T09:00:00',
-          'ActualStart' => '2017-08-23T09:00:00',
-
-        The following percentage completes are available
-          'PercentComplete' => '0',
-          'PercentWorkComplete' => '0',
-
-
 
 
 =cut
