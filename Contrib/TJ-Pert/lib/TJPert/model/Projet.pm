@@ -103,8 +103,9 @@ sub get_version {
 
 
 
-sub get_end {
+sub get_end1 {
     my $self = shift;
+#print "here\n\n".dump($self);
     my $mspTime = $self->{xml}{FinishDate};
     my $time = TJPerlUtils::util_sub_msp_time_to_unix_time($mspTime);
     return POSIX::strftime( "%x", localtime( $time ) )

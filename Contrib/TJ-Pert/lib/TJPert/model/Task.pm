@@ -84,7 +84,8 @@ sub get_id {
     my $self = shift;
 
     #DEBUG SANITY
-    die "get_id - identies different UID != ID " if ($self->{Task}->{ID} != $self->{Task}->{UID});
+    die "Task::get_id - Not looking at a Task " if (!defined $self->{Task});
+    die "Task::get_id - identies different UID != ID " if ($self->{Task}->{ID} != $self->{Task}->{UID});
 
     #return $self->{Task}->{ID};
     return $self->{Task}->{UID};

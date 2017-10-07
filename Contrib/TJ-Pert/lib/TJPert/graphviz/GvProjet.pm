@@ -54,6 +54,7 @@ sub new {
     my $psTaskList = TJPert::graphviz::GvTaskList->new($ref);
     #join the two class hashes into one.
     my $this = {( %{$psTaskList}, %{$projet} )};
+    #my $this = {(  %{$projet}, %{$psTaskList} )};
     $this->{format} = 'png'; #default
     return bless $this, $class;
 }
@@ -111,12 +112,14 @@ sub drawFile {
     # start, end , now
     $cartouche_text .= "Start: ". $self->get_start()."\n";
     $cartouche_text .= "Now: ". $self->get_now()."\n";
-    $cartouche_text .= "End: ". $self->get_end()."\n";
+    $cartouche_text .= "End: ". $self->get_end1()."\n";
+print "cartouche_text $cartouche_text\n";
+#exit;
     #my $node = gv::node($g, $self->get_id()); # I dont have an id
     my $node = gv::node($g, "top-node");
     gv::setv($node, 'label',$cartouche_text);
     gv::setv($node, 'shape','box');
-    gv::setv($node, 'color','blue');
+#    gv::setv($node, 'color','blue');
 
 # a ajouter : nom du projet + info du projet voir dtd
 

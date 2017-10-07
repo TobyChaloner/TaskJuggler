@@ -185,6 +185,8 @@ processArgs();
 	$output_file = $file . "." . $file_format;
     }
 
+    $projet->set_format($file_format);
+
     print "Creating $output_file\n";
 
     #arguments to this function are unique to the PsProject object.

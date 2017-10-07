@@ -107,7 +107,7 @@ sub draw {
     {
 	#milestone
 	my $node = gv::node($gv, $self->get_id());
-	gv::setv($node, 'label',$name."\n".$start);######################## \n is wrong
+	gv::setv($node, 'label',$name."\n".$start);
 	gv::setv($node, 'shape','diamond'); #or plaintext
         #add reference to gv self into the objects hash
 #	$self->{'gv_node'} = \$node;

@@ -1,6 +1,8 @@
 #!/usr/bin/perl -w
 
+#How to run it
 #cd ../../..; make; make -k test TEST_FILES=t/TJPert/graphviz/GvProjet.t
+#perl -d -Ilib t/TJPert/graphviz/GvProjet.t
 
 
 use Data::Dumper;
@@ -17,7 +19,6 @@ use XML::Simple;
 use TJPert::model::TaskList;
 use TJPert::model::Task;
 use TJPert::graphviz::GvTaskList;
-#use TJPert::postscript::PsProjet;
 use TJPert::graphviz::GvProjet;
 
 use strict;
@@ -87,6 +88,8 @@ open( INPUTFILE, "<$output_file" ) or fail "$!";
 my $found = 0;
 my $found2 = 0;
 my $found3 = 0;
+my $found4 = 0;
+my $found5 = 0;
 
 while (my $line = <INPUTFILE>) {
     if ( $line =~ /FirstTask/ ) {
@@ -97,6 +100,12 @@ while (my $line = <INPUTFILE>) {
     }
     if ( $line =~ /Not Started/ ) {
 	$found3++;
+    }
+    if ( $line =~ /top-node/ ) {
+	$found4++;
+    }
+    if ( $line =~ /Start: 19\/07\/2017/ ) {
+	$found4++;
     }
 }
 if ( $found)
@@ -123,6 +132,22 @@ if ( $found3)
 else
 {
     fail("find string 'Not Started' in output");
+}
+if ( $found4)
+{
+    pass("find string 'top-node' in output");
+}
+else
+{
+    fail("find string 'top-node' in output");
+}
+if ( $found5)
+{
+    pass("find string 'Start: 19/07/2017' in output");
+}
+else
+{
+    fail("find string 'Start: 19/07/2017' in output");
 }
 
 1;
