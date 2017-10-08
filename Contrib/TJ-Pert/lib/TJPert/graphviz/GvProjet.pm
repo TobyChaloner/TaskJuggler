@@ -54,7 +54,6 @@ sub new {
     my $psTaskList = TJPert::graphviz::GvTaskList->new($ref);
     #join the two class hashes into one.
     my $this = {( %{$psTaskList}, %{$projet} )};
-    #my $this = {(  %{$projet}, %{$psTaskList} )};
     $this->{format} = 'png'; #default
     return bless $this, $class;
 }
@@ -89,14 +88,10 @@ sub set_format
 # this should be named differently.
 
 sub drawFile {
-#    print "GvProjet::draw\n";
-
     my $self = shift;
-#print Dumper($self);
 
     my $output_file = shift;
     my $rhOutputFlags = shift;
-
 
 
     my $g=gv::graph('gg');
@@ -113,9 +108,6 @@ sub drawFile {
     $cartouche_text .= "Start: ". $self->get_plan_start()."\n";
     $cartouche_text .= "Now: ". $self->get_plan_now()."\n";
     $cartouche_text .= "End: ". $self->get_plan_end()."\n";
-print "cartouche_text $cartouche_text\n";
-#exit;
-    #my $node = gv::node($g, $self->get_id()); # I dont have an id
     my $node = gv::node($g, "top-node");
     gv::setv($node, 'label',$cartouche_text);
     gv::setv($node, 'shape','box');
