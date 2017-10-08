@@ -88,14 +88,14 @@ is($prj->get_version(), 14, "get_version");
 #
 #get_end
 #
-is($prj->get_end(), "18/10/16", "get_end");
+is($prj->get_plan_end(), "18/10/16", "get_plan_end");
 
 
 
 #
 #get_start
 #
-is($prj->get_start(), "19/07/16", "get_start");
+is($prj->get_plan_start(), "19/07/16", "get_plan_start");
 
 
 
@@ -104,7 +104,7 @@ is($prj->get_start(), "19/07/16", "get_start");
 #
 #
 #
-is($prj->get_now(), "25/07/16", "get_now");
+is($prj->get_plan_now(), "25/07/16", "get_plan_now");
 
 
 #

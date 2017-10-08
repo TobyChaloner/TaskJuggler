@@ -104,10 +104,11 @@ while (my $line = <INPUTFILE>) {
     if ( $line =~ /top-node/ ) {
 	$found4++;
     }
-    if ( $line =~ /Start: 19\/07\/2017/ ) {
-	$found4++;
+    if ( $line =~ /Start: 19\/07\/16/ ) {
+	$found5++;
     }
 }
+my $message = "";
 if ( $found)
 {
     pass("find string in output");
@@ -141,13 +142,14 @@ else
 {
     fail("find string 'top-node' in output");
 }
+$message = "find string 'Start: 19/07/16' in output";
 if ( $found5)
 {
-    pass("find string 'Start: 19/07/2017' in output");
+    pass($message);
 }
 else
 {
-    fail("find string 'Start: 19/07/2017' in output");
+    fail($message);
 }
 
 1;
