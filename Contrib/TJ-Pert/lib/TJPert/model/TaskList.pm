@@ -143,6 +143,78 @@ sub get_abs_max_y {
     return $self->{AbsMaxY};
 }
 
+
+
+=pod 
+
+The old XML had under each task an array of references to 'xml' subtasks.
+
+This will add that back.
+
+$xmllist->{Tasks}->{Task}->{SubTasks}->[ $refTask1, $refTask2, ...]
+
+Where no sub tasks exist.  {SubTasks} will not be present
+
+=cut 
+
+sub recreateSubTasks
+{
+    my $self = shift;
+    # xml/perl struct
+    my $xmllist = shift;
+
+    my $task;
+    my $taskl;
+
+    my %wbsLookup; #string to ref to xmlTask
+    my $index = -1; # 0 after increment
+    my @unlinks = []; # indexes to unlink - as they are sub locations
+
+    #looking at Tasks->Task.@array of records
+    foreach $task ( @{ $xmllist->{Tasks}->{Task} } ) {
+	$index++;
+	#$task is a (REF to a ) hash with contents like UID, Name, Start, Finish
+	my $wbs = $task->{WBS}; #1 or 1.1 or 1.2.2, assume in order
+	print "wbs $wbs \n";
+	$wbsLookup{$wbs} = $task; #"1.1" => {task}
+	#print "TASK". Dumper($task);
+	if ($wbs =~ '(.*)(\.[0-9]+)$')
+	{
+	    push @unlinks, $index; # this will be removed from the flat list later
+	    #There is a parent to this, so parent needs to have (ref to) this added to its children
+	    print "$wbs a $1, b $2\n";
+	    my $parent = $1;
+	    #print "wbsLookup p1 $parent:".Dumper($wbsLookup{$parent});
+	    my $refHashWbsLookup = $wbsLookup{$parent};
+	    #print "wi ". ref($wbsLookup{$parent});
+	    #print "hr wbsLookup p1 $parent:".Dumper($refHashWbsLookup);
+	    if (!exists $wbsLookup{$parent}->{SubTasks})
+	    {
+		$wbsLookup{$parent}->{SubTasks}->{Tasks}->{Task} = [];
+	    }
+	    #print "wbsLookup p2 $parent:".Dumper($wbsLookup{$parent});
+	    #pushing my xml self, not self into SubTasks
+	    push @{ $wbsLookup{$parent}->{SubTasks}->{Tasks}->{Task} }, $task;
+	    print "wbsLookup p $parent:".Dumper($wbsLookup{$parent});
+	}
+	#print "wbsLookup wbs $wbs:".Dumper($wbsLookup{$wbs});
+    }
+
+
+    #unlink the nodes that are below the top level, but preserved under the subTasks
+    foreach my $i (reverse (@unlinks))
+    {
+	splice  @{ $xmllist->{Tasks}->{Task} }, $i, 1;
+    }
+
+}
+
+
+
+
+
+
+
 =pod 
 
  extract each task from the xml structure in a TaskList
@@ -152,6 +224,7 @@ $VAR1 = {
                     {
                       'Name' => 'Remove Unit to Right Cooker',
                       'UID' => '1',
+                      'WBS' => '1',
                        'PredecessorLink' => [
                                            {
                                              'PredecessorUID' => '8',
@@ -171,6 +244,7 @@ $VAR1 = {
                       'Milestone' => '0',
                       'Name' => 'Remove Cooker',
                       'UID' => '2',
+                      'WBS' => '1.2',
                    ...
                     }
                   ]
@@ -188,6 +262,8 @@ sub extract_list_task {
     my $task;
     my $taskl;
 
+    print "extract_list_task: ". Dumper($xmllist)."\n";
+    
     #yields an array of hashes in TJ/MSP format
     #each hash has contents like UID, Name, Start, Finish
 

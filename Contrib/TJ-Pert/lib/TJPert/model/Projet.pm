@@ -30,7 +30,7 @@ use TJPert::model::Assignments;
 package TJPert::model::Projet;
 
 #use Carp;
-#use Data::Dumper;
+use Data::Dumper;
 
 
 use vars qw(@ISA);
@@ -73,6 +73,8 @@ sub new {
 sub extract_list_task {
     my $self = shift;
 
+    $self->recreateSubTasks($self->{xml});
+
     # call the TaskList sub
     $self->SUPER::extract_list_task($self->{xml});
 }
@@ -113,7 +115,7 @@ sub get_plan_end {
 
 
 sub get_plan_start {
-    print "Projet::get_start\n";
+#    print "Projet::get_start\n";
     my $self = shift;
     my $mspTime = $self->{xml}{StartDate};
     my $time = TJPerlUtils::util_sub_msp_time_to_unix_time($mspTime);

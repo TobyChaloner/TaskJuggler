@@ -1,8 +1,16 @@
 
 
-prepare-TJ-Pert-test-data: output/simpleTasksTestData.msp.xml
+prepare-TJ-Pert-test-data: output/simpleTasksTestData.msp.xml output/hierachicalDepth1.msp.xml  output/hierachicalDepth2.msp.xml
 
 output/simpleTasksTestData.msp.xml: simpleTasksTestData.tjp
+	if test ! -d output; then  mkdir output; fi
+	tj3 $< -o output
+
+output/hierachicalDepth1.msp.xml: hierachicalDepth1.tjp
+	if test ! -d output; then  mkdir output; fi
+	tj3 $< -o output
+
+output/hierachicalDepth2.msp.xml: hierachicalDepth2.tjp
 	if test ! -d output; then  mkdir output; fi
 	tj3 $< -o output
 

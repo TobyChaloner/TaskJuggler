@@ -1,5 +1,5 @@
 ######################################################################## 
-# Copyright (c) 2002 by Philippe Midol-Monnet <philippe@midol-monnet.org>
+# Copyright (c) 2017 by Toby Chaloner <toby.chaloner+git@gmail.com>
 # 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use TJPert::model::TaskList;
 use TJPert::graphviz::GvTask;
 
 
-# This package specialises TaskList for output to Postscript
+# This package specialises TaskList for output to graphviz
 
 
 package TJPert::graphviz::GvTaskList;

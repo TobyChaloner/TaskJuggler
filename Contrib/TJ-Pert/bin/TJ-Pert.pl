@@ -158,7 +158,7 @@ processArgs();
     }
 
     # Extract task from xml/perl struct
-    $projet->extract_list_task($projetxml);
+    $projet->TJPert::model::Projet::extract_list_task($projetxml);
 
     $projet->process_tasks;
 
