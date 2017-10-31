@@ -63,6 +63,15 @@ sub new {
 }
 
 
+sub place_tasks
+{
+    print "PsProjet::place_tasks\n";
+    my $self = shift;
+    # place all task in  the grid;
+    $self->put_in_grid($self);
+    $self->put_in_line;
+    $self->set_lin(0);
+}
 
 
 

@@ -79,7 +79,6 @@ sub set_format
 
 
 
-
 # The drawing in this routine are default bottom left orientated.
 # However the y axis is reversed, before the pert components are laid
 # out.  If they are not visible, its becaus they're below the page.

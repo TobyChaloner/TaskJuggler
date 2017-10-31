@@ -1,0 +1,96 @@
+graph 1 8.2361 7.4722
+node "top-node" 1.6181 0.47222 3.2361 0.94444 "hierachicalDepth1.msp.xml, version 14
+Start: 19/07/16
+Now: 25/07/16
+End: 18/10/16
+" solid box black lightgrey
+node 1 1.6181 1.6667 2 0.94444 < 
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"> 
+ <TR>
+  <TD>20/07/16</TD>
+  <TD></TD>
+  <TD>25/07/16</TD>
+ </TR>
+ <TR> 
+  <TD COLSPAN="3">FirstTask</TD>
+ </TR>
+ <TR> 
+  <TD COLSPAN="3"></TD>
+ </TR> 
+</TABLE> > solid none black lightgrey
+node 2 1.6181 2.9722 2.3056 1.1528 < 
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"> 
+ <TR>
+  <TD>22/07/16</TD>
+  <TD></TD>
+  <TD>22/07/16</TD>
+ </TR>
+ <TR> 
+  <TD COLSPAN="3">To achieve First Task 1.1</TD>
+ </TR>
+ <TR> 
+  <TD COLSPAN="3">Albert</TD>
+ </TR> 
+</TABLE> > solid none black lightgrey
+node 3 1.6181 4.2778 2.1806 0.94444 < 
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"> 
+ <TR>
+  <TD>21/07/16</TD>
+  <TD></TD>
+  <TD>21/07/16</TD>
+ </TR>
+ <TR> 
+  <TD COLSPAN="3">To achieve 1st Task 1.2</TD>
+ </TR>
+ <TR> 
+  <TD COLSPAN="3"></TD>
+ </TR> 
+</TABLE> > solid none black lightgrey
+node 4 1.6181 5.5833 2.3333 1.1528 < 
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"> 
+ <TR>
+  <TD>21/07/16</TD>
+  <TD></TD>
+  <TD>21/07/16</TD>
+ </TR>
+ <TR> 
+  <TD COLSPAN="3">To achieve 1st Task 1.2.1</TD>
+ </TR>
+ <TR> 
+  <TD COLSPAN="3">Albert</TD>
+ </TR> 
+</TABLE> > solid none black lightgrey
+node 5 4.7361 2.1528 2 1.1528 < 
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"> 
+ <TR>
+  <TD>25/07/16</TD>
+  <TD></TD>
+  <TD>26/07/16</TD>
+ </TR>
+ <TR> 
+  <TD COLSPAN="3">50% complete</TD>
+ </TR>
+ <TR> 
+  <TD COLSPAN="3">Albert</TD>
+ </TR> 
+</TABLE> > solid none black lightgrey
+node 6 7.2361 1.6667 2 1.1528 < 
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"> 
+ <TR>
+  <TD>27/07/16</TD>
+  <TD></TD>
+  <TD>29/07/16</TD>
+ </TR>
+ <TR> 
+  <TD COLSPAN="3">Not Started</TD>
+ </TR>
+ <TR> 
+  <TD COLSPAN="3">Bertie</TD>
+ </TR> 
+</TABLE> > solid none black lightgrey
+node 7 1.6181 6.9444 1.8056 1.0556 "MS
+30/07/16" solid diamond black lightgrey
+edge 1 5 4 2.6182 1.8218 2.929 1.8707 3.2747 1.9251 3.5946 1.9754 solid black
+edge 1 6 10 2.6206 1.5485 2.9722 1.5118 3.3713 1.4763 3.7361 1.4583 4.6239 1.4145 4.8494 1.3965 5.7361 1.4583 5.8519 1.4664 5.9725 1.478 6.0925 1.4916 solid black
+edge 5 6 4 5.7377 1.9586 5.8557 1.9354 5.9768 1.9116 6.0965 1.888 solid black
+stop

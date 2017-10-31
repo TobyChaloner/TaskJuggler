@@ -195,7 +195,7 @@ sub recreateSubTasks
 	    #print "wbsLookup p2 $parent:".Dumper($wbsLookup{$parent});
 	    #pushing my xml self, not self into SubTasks
 	    push @{ $wbsLookup{$parent}->{SubTasks}->{Tasks}->{Task} }, $task;
-	    print "wbsLookup p $parent:".Dumper($wbsLookup{$parent});
+	    #print "wbsLookup p $parent:".Dumper($wbsLookup{$parent});
 	}
 	#print "wbsLookup wbs $wbs:".Dumper($wbsLookup{$wbs});
     }
@@ -262,7 +262,8 @@ sub extract_list_task {
     my $task;
     my $taskl;
 
-    print "extract_list_task: ". Dumper($xmllist)."\n";
+    print "*** I am a ".ref($self)." ***\n";
+    #print "extract_list_task: ". Dumper($xmllist)."\n";
     
     #yields an array of hashes in TJ/MSP format
     #each hash has contents like UID, Name, Start, Finish
@@ -271,11 +272,10 @@ sub extract_list_task {
     foreach $task ( @{ $xmllist->{Tasks}->{Task} } ) {
 	#$task is a hash with contents like UID, Name, Start, Finish
 
-	#TODO - deferred
 	if ( $task->{SubTasks} ) {
 
             # the task have subtasks => create new TaskList
-	    $taskl = createTaskList($task);
+	    $taskl = $self->createTaskList($task);
 	    $taskl->set_assignments($self->{Assignments});
 	    
             # extract subtasks from xml/perl struct
@@ -365,8 +365,9 @@ sub add_depends_by_ref {
     my $self     = shift;
     my $alltasks = shift;
 
+    print "TL::add_depends_by_ref on ".ref($self)."\n";
+    
     my $lst_dep;
-
     my $task;
     foreach $task ( @{ $self->{List} } ) {
       $lst_dep = $task->find_dep_lst($alltasks);
@@ -470,109 +471,10 @@ print "first_subtask ".Dumper($self);
     return $firstsub;
 }
 
-# return true if the cell is free in local grid
-sub cell_is_free {
-    my $self       = shift;
-    my $line       = shift;
-    my $height     = shift;
-    my $column_min = shift;
-    my $column_max = shift;
 
-    # intersection coordinates
-    my $x_min;
-    my $y_min;
-    my $x_max;
-    my $y_max;
 
-    my $task;
 
-    foreach $task ( @{ $self->{List} } ) {
-        if ( $task->get_lin != -1 ) {
-            $x_min = max( $column_min, $task->get_min_col );
-            $x_max = min( $column_max, $task->get_max_col );
-            $y_min = max( $line,       $task->get_lin );
-            $y_max =
-              min( $line + $height - 1,
-                $task->get_lin + $task->get_height - 1 );
-            return 0 if ( $x_min <= $x_max and $y_min <= $y_max );
-        }
-    }
 
-    return 1;
-}
-
-sub col_is_set {
-    my $self = shift;
-
-    my $task;
-    foreach $task ( @{ $self->{List} } ) {
-        return 0 if ( !$task->col_is_set );
-    }
-    return 1;
-}
-
-# find first free line in column $column since line $line
-sub find_free_line {
-    my $self   = shift;
-    my $column = shift;
-    my $line   = shift;
-
-    while ( !$self->cell_is_free( $column, $line ) ) {
-        $line++;
-    }
-
-    return $line;
-}
-
-# Place each task in the grid
-sub put_in_grid {
-    my $self = shift;
-
-    my $alltasks = shift;
-
-    my $again = 1;
-    my $task;
-
-    my $col;
-    my $line;
-
-    my $againrec = 0;
-
-    while ($again) {
-        $again = 0;
-
-        foreach $task ( @{ $self->{List} } ) {
-            if ( $task->is_container ) {
-                $again = $task->put_in_grid($alltasks);
-                $self->{Max_X} = $task->get_max_col
-                  if ( $self->{Max_X} < $task->get_max_col );
-
-                $self->{Min_X} = $task->get_min_col
-                  if ( $self->{Min_X} > $task->get_min_col );
-
-            }
-            else {
-                if ( !$task->col_is_set() && $task->can_set_col() ) {
-
-                    # find column and line in the grid
-                    $col = $task->set_col();
-
-                    # update the last line and column
-                    $self->{Max_X} = $col if ( $self->{Max_X} < $col );
-
-                    $self->{Min_X} = $col if ( $self->{Min_X} > $col );
-
-                    $again    = 1;
-                    $againrec = 1;
-
-                }
-            }
-        }
-    }
-
-    return $againrec;
-
-}
 
 
 
@@ -592,58 +494,5 @@ sub draw
 
 
 
-# each task are put in a relative line
-sub put_in_line {
-    my $self = shift;
-#print(Dumper($this));
-    my $task;
-
-    foreach $task ( @{ $self->{List} } ) {
-        $task->put_in_line if ( $task->is_container );
-        my $line = 0;
-        while (
-            !$self->cell_is_free( $line, $task->get_height, $task->get_min_col,
-                $task->get_max_col ) )
-        {
-            $line++;
-        }
-        $task->set_lin($line);
-        if ( $self->get_height < $line +
-	     $task->get_height ) {
-            $self->set_height( $line + $task->get_height );
-        }
-    }
-}
-
-# set line for a TaskList
-# all the subtasks are in relative coordinate => they are moved down
-sub set_lin {
-    my $self = shift;
-    my $line = shift;
-
-    my $task;
-
-    $self->SUPER::set_lin($line);
-
-    foreach $task ( @{ $self->{List} } ) {
-        $task->add_lin($line);
-    }
-
-}
-
-sub add_lin {
-
-    my $self = shift;
-    my $line = shift;
-
-    my $task;
-
-    $self->SUPER::add_lin($line);
-
-    foreach $task ( @{ $self->{List} } ) {
-        $task->add_lin($line);
-    }
-
-}
 
 1;

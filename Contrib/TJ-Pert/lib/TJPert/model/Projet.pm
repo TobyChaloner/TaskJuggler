@@ -85,11 +85,29 @@ sub process_tasks {
     # add dependencies lists for all tasks
     $self->add_depends_by_ref($self);
 
+    #if any placing needs to be done...
+    $self->place_tasks();
+
+=pod 
+
     # place all task in  the grid;
     $self->put_in_grid($self);
     $self->put_in_line;
     $self->set_lin(0);
+
+=cut
+
 }
+
+
+
+
+#place holder to be overridden if placing is needing to be done
+sub place_tasks
+{
+    print "Projet::place_tasks\n";
+}
+
 
 sub get_name {
     my $self = shift;

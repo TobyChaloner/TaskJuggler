@@ -33,9 +33,11 @@ use TJPert::graphviz::GvTask;
 package TJPert::graphviz::GvTaskList;
 
 
+use Data::Dumper;
+
 
 use vars qw(@ISA);
-@ISA = qw( TJPert::model::TaskList TJPert::graphviz::GvTask );
+@ISA = qw( TJPert::graphviz::GvTask TJPert::model::TaskList  );
 
 
 
@@ -59,7 +61,7 @@ sub new {
 
 sub createTask
 {
-#    print "GvTaskList::createTask\n";
+    print "GvTaskList::createTask\n";
     my $self = shift;
     my $task = shift;
     return TJPert::graphviz::GvTask->new($task);
@@ -86,9 +88,10 @@ sub createTaskList
 # draw recursively all the tasks and dependencies
 
 sub draw {
-#    print "GvTaskList::draw\n";
+    print "GvTaskList::draw\n";
 #    print Dumper(@_);
     my $self = shift;
+    print "GvTaskList::draw processing a ".ref($self)."\n";
 
     #postscript output
     my $p = shift;
@@ -99,25 +102,35 @@ sub draw {
 
     my $task;
 
-
+    #print "GvTaskList::draw: ". Dumper($self)."\n";
+    
 
     # draw tasks
     foreach $task ( @{ $self->{List} } ) {
+	#print "tasks: wbs ".$task->{WBS}."\n";
 	#task is responsible for remembering its Gv ID
+	print "draw on a ".ref($task)."\n";
 	$task->draw( $p, 0,0, $rhOutputFlags);
     }
 
+    print "\n\ndrawing lines between dependents:\n";
     #draw lines between dependents
     my $dep;
     foreach $task ( @{ $self->{List} } )
     {
-        foreach $dep ( @{ $task->get_dep() } )
+	print "draw deps on a ".ref($task)."\n";
+	#print "deps on ".Dumper($task)."\n";
+	#print "taskLists: wbs ".$task->{WBS}."\n";
+	if (defined ($task->get_dep()))
+	{
+       foreach $dep ( @{ $task->get_dep() } )
 	{
 	    my $tn = $task->get_id();
 	    my $dn = $dep->get_id();
 	    my $edge = gv::edge($p, $dn, $tn);
 	    gv::setv($edge, 'dir', 'forward');
 	}
+   }
     }
 
 =pod 

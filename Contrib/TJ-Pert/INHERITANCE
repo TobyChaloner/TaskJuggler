@@ -18,14 +18,14 @@ sub new {
 Inheritance
 ------------
 PJ-Perl -> PsProjet
-	      |   \
-	      __  __
-	      \/  \/
-	 Projet   PsTaskList
-              \     /  \ 
-              __   __   __
-	      \/   \/   \/
-	     TaskList   PsTask
+	      |    \
+	      __    __
+	      \/    \/
+	  PsTaskList  Projet   
+              \     \    \ 
+              __     __   __
+	      \/     \/   \/
+	    PsTask   TaskList
 	        \      /
 		__   __
 		\/   \/

@@ -1,0 +1,67 @@
+/*
+
+This tests
+
+Task
+
+task task task
+
+dependencies
+
+WBS:
+1,2,1.1
+also the dependency is to the TaskList, not the Task
+
+*/
+
+project k2 "Test Percent Complete in sequence"  2016-07-19 +3m {
+timeformat "%d-%m-%Y"
+now 2016-07-25
+}
+
+resource al "Albert"
+resource be "Bertie"
+
+task none "FirstTask 1" {
+     start 2016-07-20
+     end 2016-07-21
+     complete 48
+
+
+     #########################################
+     task sub1 "To achieve First Task 1.1" {
+          effort 1d
+	  allocate al
+     }
+
+}
+
+
+task middle "50% complete 1.2" {
+     effort 2d
+     depends none
+     allocate al
+     complete 49
+}
+
+     
+task follows "Not Started" {
+     effort 3d
+     allocate be
+     depends middle, none
+}
+
+     
+task last "MS" {
+     start 2016-07-30
+}
+
+
+
+
+
+#report
+export pertexportn "hierachicalDepth1.msp" {
+ formats mspxml
+ hideresource 0
+}

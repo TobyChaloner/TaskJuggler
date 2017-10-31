@@ -1,4 +1,4 @@
-######################################################################## 
+####################################################################### 
 # Copyright (c) 2002 by Philippe Midol-Monnet <philippe@midol-monnet.org>
 # 
 # This program is free software; you can redistribute it and/or modify
@@ -287,7 +287,9 @@ Many:
 =cut
 
 
-# return task dependencie id from xml
+# return task dependencies identitie(s) from xml
+# could be nil, hash or array_of_hash
+# i.e. 0,1,many
 sub get_previous_id {
     my $self = shift;
     #carp "get_previous_id";
@@ -432,6 +434,10 @@ sub id_to_abs {
 
 =pod 
 
+returns a list of dependencies.
+each element is a reference to a Task (eg GvTask)
+
+design using xml input:
 $self->get_previous_id:
   Simplest case: nil
   Next one - hash ref
@@ -439,11 +445,19 @@ $self->get_previous_id:
 
 
 This works with UIDs
-
-This array does not exist in the MSP version.
-
-returns a list of dependencies.
-each element is ?
+MSP xml array looks like
+                       'PredecessorLink' => [
+                                           {
+                                             'PredecessorUID' => '8',
+                                             'Type' => '1'
+                                           },
+                                           {
+                                             'PredecessorUID' => '10',
+                                             'Type' => '1'
+                                           }
+                                         ],
+                   ...
+                  },
 
 =cut
 
@@ -454,17 +468,19 @@ sub find_dep_lst {
 
     my $dep_ref;
     my $dep_id;
-    my @lst_dep;
+    my @lst_dep = []; # try for valid but empty
     my $abs_dep;
 
-#    print "find_dep_lst".Dumper($self);
-    my $rPreviousElem = $self->get_previous_id;
+    #    print "find_dep_lst".Dumper($self);
+    #examples of the datastructure returned are with the function get_previous_id
+    my $rPreviousElem = $self->get_previous_id();
 
-    #print Dumper($rPreviousElem);
+    print "rPreviousElem: ".Dumper($rPreviousElem);
 
     #nil
     if ( !$rPreviousElem ) {
 #	print Dumper(@lst_dep);
+    print "find_dep_lst".Dumper(@lst_dep);
 	return \@lst_dep;
     }
 
@@ -475,6 +491,7 @@ sub find_dep_lst {
 	$dep_id = $rPreviousElem->{PredecessorUID};
 	$dep_ref = $alltasks->find_id($dep_id);
 	push @lst_dep, $dep_ref;
+    print "find_dep_lst".Dumper(@lst_dep);
 	return \@lst_dep;
     }
 
@@ -484,6 +501,7 @@ sub find_dep_lst {
 	$dep_ref = $alltasks->find_id($dep_id);
 	push @lst_dep, $dep_ref;
     }
+    print "find_dep_lst".Dumper(@lst_dep);
     return \@lst_dep;
 
 =pod 

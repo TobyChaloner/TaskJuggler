@@ -162,7 +162,7 @@ sub load_cache
     #WEAKNESS what if multiple resources assigned
     foreach my $assignment ( @{ $this->{xml}->{Assignments}->{Assignment} } )
     {
-	print (Dumper($assignment));
+	#print (Dumper($assignment));
 	$this->add_taskToResource($assignment->{TaskUID}, $resources{$assignment->{ResourceUID}} );
     }
 }
